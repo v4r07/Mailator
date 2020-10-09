@@ -28,7 +28,7 @@ Bry: https://www.youtube.com/channel/UCfk3AwcvW1fK0611Xt2WGtg
 
 Syscall: https://www.youtube.com/channel/UCG_x-i-t8fQjpbTjfAv4OOQ
 
-# Usage
+# Usage:
 
 - Require 
 
