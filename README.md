@@ -33,7 +33,9 @@ Syscall: https://www.youtube.com/channel/UCG_x-i-t8fQjpbTjfAv4OOQ
 - Require 
 
 colorize
+
 pastel
+
 tty-spinner
 
 - Configuration
