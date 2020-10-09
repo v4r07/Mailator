@@ -9,11 +9,13 @@ Simple mailer in Ruby, created by Bry and Syscall.
 - Github
 
 Bry: Bryl33t
+
 Syscall: Syscall0336
 
 - Discord
 
 Bry: Bry#8001
+
 Syscall: Syscall#0007
 
 - Twitter
@@ -23,6 +25,7 @@ Bry: CorpseCpp
 - YouTube
 
 Bry: https://www.youtube.com/channel/UCfk3AwcvW1fK0611Xt2WGtg
+
 Syscall: https://www.youtube.com/channel/UCG_x-i-t8fQjpbTjfAv4OOQ
 
 # Usage
