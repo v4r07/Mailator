@@ -1,3 +1,23 @@
+=begin
+
+msgstr = <<END_OF_MESSAGE
+From: Your Name <your@mail.address>
+To: Destination Address <someone@example.com>
+Subject: test message
+Date: Sat, 23 Jun 2001 16:26:43 +0900
+Message-Id: <unique.message.id.string@example.com>
+
+This is a test message.
+END_OF_MESSAGE
+
+require 'net/smtp'
+Net::SMTP.start('your.smtp.server', 25) do |smtp|
+  smtp.send_message msgstr,
+                    'your@mail.address',
+                    'his_address@example.com'
+end
+
+=end
 module Mailator
 
     class Converter
@@ -100,12 +120,13 @@ EOF
         @@scama = nil
         @@subject = nil
         @@senderfrom = nil
-
-        def initialize(mailist, scama, subject, senderfrom)
+	    @@ssl = nil
+        def initialize(mailist, scama, subject, senderfrom, ssl)
             @@mailist = mailist
             @@scama = scama
             @@subject = subject
             @@senderfrom = senderfrom
+	        @@ssl = ssl
         end
 
         def readFile(file)
@@ -139,19 +160,34 @@ MESSAGE_END
                 pastel = Pastel.new
                 spinner = TTY::Spinner.new(pastel.yellow"[:spinner] Envois du mail => #{email.chomp}")
                 
-                ctx = OpenSSL::SSL::SSLContext.new()
-                smtp = Net::SMTP.new("#{smtp_info["smtp_host"]}", smtp_info["smtp_port"])
-                smtp.enable_tls
-                smtp.start("#{smtp_info["smtp_host"]}", "#{smtp_info["smtp_user"]}", "#{smtp_info["smtp_pass"]}") do |smtp|
-                    thr = Thread.new { smtp.send_message message, "#{smtp_info["smtp_email"]}", "#{email.chomp}" }
-                    20.times do
-                        spinner.spin
-                        sleep(0.1)
+                if @@ssl == "true"
+                            ctx = OpenSSL::SSL::SSLContext.new()
+                            smtp = Net::SMTP.new("#{smtp_info["smtp_host"]}", smtp_info["smtp_port"])
+                            smtp.enable_tls
+                            smtp.start("#{smtp_info["smtp_host"]}", "#{smtp_info["smtp_user"]}", "#{smtp_info["smtp_pass"]}") do |smtp|
+                                thr = Thread.new { smtp.send_message message, "#{smtp_info["smtp_email"]}", "#{email.chomp}" }
+                                20.times do
+                                    spinner.spin
+                                    sleep(0.1)
+                                end
+                                thr.join
+                                spinner.success(pastel.green '(Send)')
+                                smtp.finish
+                            end
+                else
+                    smtp = Net::SMTP.new("#{smtp_info["smtp_host"]}", smtp_info["smtp_port"])
+                    smtp.start("#{smtp_info["smtp_host"]}", "#{smtp_info["smtp_user"]}", "#{smtp_info["smtp_pass"]}") do |smtp|
+                            thr = Thread.new { smtp.send_message message, "#{smtp_info["smtp_email"]}", "#{email.chomp}" }
+                            20.times do
+                                spinner.spin
+                                sleep(0.1)
+                            end
+                            thr.join
+                            spinner.success(pastel.green '(Send)')
+                            smtp.finish
                     end
-                    thr.join
-                    spinner.success(pastel.green '(Send)')
-                    smtp.finish
                 end
+                
                 
     
             end

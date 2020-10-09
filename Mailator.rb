@@ -33,6 +33,9 @@ if ARGV.length >= 1
         port = ARGV[4].split("=")[1].to_i
         email = ARGV[5].split("=")[1]
         smtp_instance.config(host, user, pass, port, email) #def config(host, user, pass, port)
+    elsif ARGV[0] == "--help"
+	command = Commands.new
+	puts command.help_me
     elsif ARGV[0] == "--convert" && ARGV[1].include?("--htmlentities=")
         if ARGV[1] == "--htmlentities="
             puts Mailator::Error.danger(ARGV[1])
@@ -48,7 +51,7 @@ if ARGV.length >= 1
         puts "[PASS]: {#{smtp_instance.getSmtpInfo()["smtp_pass"]}}".magenta
         puts "[PORT]: {#{smtp_instance.getSmtpInfo()["smtp_port"]}}".magenta
         puts "[EMAIL]: {#{smtp_instance.getSmtpInfo()["smtp_email"]}}".magenta
-    elsif ARGV[0] == "--sender" && ARGV[1].include?("--mailist=") && ARGV[2].include?("--html=") && ARGV[3].include?("--subject=") && ARGV[4].include?("--senderfrom=") && ARGV[5] == "--start"
+    elsif ARGV[0] == "--sender" && ARGV[1].include?("--mailist=") && ARGV[2].include?("--html=") && ARGV[3].include?("--subject=") && ARGV[4].include?("--senderfrom=") && ARGV[5].include?("--ssl=") && ARGV[6] == "--start"
         if ARGV[1] == "--mailist="
             puts Mailator::Error.danger(ARGV[1])
         elsif ARGV[2] == "--html="
@@ -57,13 +60,16 @@ if ARGV.length >= 1
             puts Mailator::Error.danger(ARGV[3])
         elsif ARGV[4] == "--senderfrom="
             puts Mailator::Error.danger(ARGV[4])
+	    elsif ARGV[5] == "--ssl="
+		    puts Mailator::Error.danger(ARGV[5])
         end
         mailist_path = ARGV[1].split("=")[1]
         html_path = ARGV[2].split("=")[1]
         subject = ARGV[3].split("=")[1]
         senderfrom = ARGV[4].split("=")[1]
-        
-        smtp_instance = Mailator::Sender.new(mailist_path, html_path, subject, senderfrom)
+	    ssl = ARGV[5].split("=")[1]
+        puts ssl
+        smtp_instance = Mailator::Sender.new(mailist_path, html_path, subject, senderfrom, ssl)
         begin
             smtp_instance.send
         rescue Net::SMTPAuthenticationError
