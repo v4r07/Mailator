@@ -34,20 +34,25 @@ Syscall: https://www.youtube.com/channel/UCG_x-i-t8fQjpbTjfAv4OOQ
 
 Behind each "=", please put the corresponding setting.
 
+`
 --config --host= --user= --pass= --port= --email=
+`
 
 - Run
 
 Made as for the configuration.
 
+`
 ruby ./Mailator.rb --sender --mailist= --html= --subject= --senderfrom= --start
+`
 
 - Info
 
 This and to show se you have enter the configuration.
 
+`
 --info
-
+`
 # Other
 
 ° If you have any questions, report it.
