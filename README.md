@@ -30,6 +30,12 @@ Syscall: https://www.youtube.com/channel/UCG_x-i-t8fQjpbTjfAv4OOQ
 
 # Usage
 
+- Require 
+
+colorize
+pastel
+tty-spinner
+
 - Configuration
 
 Behind each "=", please put the corresponding setting.
