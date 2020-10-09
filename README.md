@@ -51,4 +51,5 @@ This and to show se you have enter the configuration.
 # Other
 
 ° If you have any questions, report it.
+
 ° Other versions may come out.
